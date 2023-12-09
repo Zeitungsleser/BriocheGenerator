@@ -40,7 +40,7 @@ def check(line):
     return True
 
 #m = int(input("Wie viele Maschen? (nur Vorderseite)"))
-m=10
+m= 9
 #n = int(input("Wie viele Reihen?"))
 n=10
 
@@ -56,12 +56,12 @@ print(line)
 #zweite Reihe
 for j in range(n):
     alle_masch = list(range(m))
-    anz_masch = random.randint(m//3,m//4+1)
-    sel_masch = choose(alle_masch.copy(),anz_masch)
     line = []
     while True:
+        anz_masch = random.randint(m//4,m//3)
+        sel_masch = choose(alle_masch.copy(),anz_masch)
         for masch in alle_masch:
-            possibilitys = ['v', 'w', 'l', 'r','s']
+            possibilitys = ['v', 'v', 'w', 'l', 'l', 'r', 'r','s']
             if masch in sel_masch:
                 line.append(random.choice(possibilitys))
             else:

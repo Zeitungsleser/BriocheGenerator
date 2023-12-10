@@ -1,6 +1,8 @@
 let m = 9;
 let n = 10;
 
+let p = 50; //Gittergröße in Pixeln
+
 let out = [];
 
 function sumLine(line) {
@@ -41,19 +43,23 @@ function check(line) {
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(p * (m + 3), p * (n + 2));
 
-  document.getElementById("zeilen").addEventListener("change", (e) => {
+  document.getElementById("zeilen").addEventListener("input", (e) => {
     n = Number(e.target.value);
-    console.log(n);
     e.target.nextElementSibling.innerText = n;
-    redraw();
+    resizeCanvas(p * (m + 3), p * (n + 2));
   });
 
-  document.getElementById("spalten").addEventListener("change", (e) => {
+  document.getElementById("spalten").addEventListener("input", (e) => {
     m = Number(e.target.value);
-    console.log(m);
     e.target.nextElementSibling.innerText = m;
+    resizeCanvas(p * (m + 3), p * (n + 2));
+    document.getElementById("anzAnsch").innerText = 2 * m + 3;
+    document.getElementById("anzM").innerText = m;
+  });
+
+  document.getElementById("refresh").addEventListener("click", (e) => {
     redraw();
   });
 }
@@ -78,16 +84,16 @@ function draw() {
       l = [];
     }
 
-    let x_top = 40;
-    let x_bottom = 40;
+    let x_top = 2 * p;
+    let x_bottom = 2 * p;
 
     for (let j = 0; j < m + 2; j++) {
-      let x = 20 + 20 * j;
-      let y = 20 + 20 * i;
+      let x = p + p * j;
+      let y = p + p * i;
       point(x, y);
 
       if (j == 0 || j == m + 1) {
-        line(x, y, x, y + 20);
+        line(x, y, x, y + p);
         continue;
       }
       let following_char, last_char;
@@ -105,48 +111,48 @@ function draw() {
         following_char != "s" &&
         last_char != "s"
       ) {
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        x_bottom += 20;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        x_bottom += p;
       }
       if (l[j - 1] == "v") {
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        x_bottom += 20;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        x_bottom += p;
       }
       if (l[j - 1] == "r") {
-        line(x_top + (x_bottom - x_top) / 5, y + 4, x_bottom, y + 20);
-        x_bottom += 20;
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        x_bottom += 20;
+        line(x_top + (x_bottom - x_top) / 5, y + p / 5, x_bottom, y + p);
+        x_bottom += p;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        x_bottom += p;
       }
       if (l[j - 1] == "l") {
-        line(x_top, y, x_bottom, y + 20);
-        x_bottom += 20;
-        line(x_top + (x_bottom - x_top) / 5, y + 4, x_bottom, y + 20);
-        x_top += 20;
-        x_bottom += 20;
+        line(x_top, y, x_bottom, y + p);
+        x_bottom += p;
+        line(x_top + (x_bottom - x_top) / 5, y + p / 5, x_bottom, y + p);
+        x_top += p;
+        x_bottom += p;
       }
       if (l[j - 1] == "w") {
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        line(x_top, y, x_bottom, y + 20);
-        x_top += 20;
-        x_bottom += 20;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        line(x_top, y, x_bottom, y + p);
+        x_top += p;
+        x_bottom += p;
       }
       if (l[j - 1] == "s") {
-        line(x_top + (x_bottom - x_top) / 5, y, x_bottom, y + 20);
-        x_bottom += 20;
-        line(x_top, y, x_bottom, y + 20);
-        x_bottom += 20;
-        line(x_top + (x_bottom - x_top) / 5, y, x_bottom, y + 20);
-        x_top += 20;
-        x_bottom += 20;
+        line(x_top + (x_bottom - x_top) / 5, y + p / 5, x_bottom, y + p);
+        x_bottom += p;
+        line(x_top, y, x_bottom, y + p);
+        x_bottom += p;
+        line(x_top + (x_bottom - x_top) / 5, y + p / 5, x_bottom, y + p);
+        x_top += p;
+        x_bottom += p;
       }
     }
   }

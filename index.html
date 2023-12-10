@@ -3,20 +3,64 @@
     <head>
       <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
       <script src="sketch.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+      <style type="text/css">
+        .regler {
+          display: flex;
+          align-items: center;
+          gap: 1em;
+        }
+        .regler label {
+          min-width: 10em;
+        }
+        .regler span {
+          min-width: 2em;
+          text-align: center;
+        }
+        input[type="button"] {
+          margin-bottom: 2em;
+        }
+        blockquote {
+          font-style: normal;
+        }
+      </style>
     </head>
     <body>
-      <main>
-      </main>
-      <div>
-      <label for="zeilen">Anzahl der Reihen</label>
-      <input type="range" id="zeilen" min="1" max="30" value="10">
-      <span>10</span>
+      <div class="regler">
+        <label for="zeilen">Anzahl der Reihen:</label>
+        <input type="range" id="zeilen" min="1" max="30" value="10">
+        <span>10</span>
       </div>
-      <div>
-      <label for="spalten">Anzahl der Maschen</label>
-      <input type="range" id="spalten" min="5" max="30" value="9">
-      <span>9</span>
+      <div class="regler">
+        <label for="spalten">Anzahl der Maschen:</label>
+        <input type="range" id="spalten" min="5" max="30" value="9">
+        <span>9</span>
       </div>
       <input type="button" id="refresh" value="Generieren">
+      <main>
+      </main>
+      <h3>Und wie lese & stricke ich jetzt dieses Muster?</h3>
+      <blockquote>
+      <ul>
+        <li><span id="anzAnsch">21</span> Maschen in Farbe 1 anschlagen.</li>
+        <li><b>1. Reihe: </b>in Farbe 1: *1 re, 1 links mit Umschlag abheben* (was zwischen * steht, noch <span id="anzM">9</span>-mal wiederholen.), 1 re. Danach die Maschen ans andere Ende der Nadel schieben, die Arbeit nicht wenden.</li>
+        <li><b>2. Reihe: </b>in Farbe 2: *1 links mit Umschlag abheben, 1 links mit Umschlag zusammenstricken* (was zwischen * steht, noch <span id="anzM">9</span>-mal wiederholen.), 1 li m U abh. Nun die Arbeit wenden.</li>
+        <li><b>3. Reihe: </b>in Farbe 1: *1 li m U zsmstr, 1 li m U abh* (noch <span id="anzM">9</span>-mal), 1 li m U zsmstr. Wieder die Maschen ans andere Ende der Nadel schieben und die Arbeit nicht wenden.</li>
+        <li><b>4. Reihe: </b>in Farbe 2: *1 li m U abh, 1 re m U zsmstr* (noch <span id="anzM">9</span>-mal), 1 li m U abh. Nun die Arbeit wenden.</li>
+        <li><b>5. Reihe: </b>in Farbe 1: nun beginnt das Muster, wir beginnen unten rechts im Fenster. Wir beginnen mit dem ersten Strich (eine Masche in unserer Farbe), heben dann eine links mit Umschlag ab, nehmen dann den zweiten Strich (der, der links daneben ist), heben wieder eine mit Umschlag ab usw. Beim Stricken der Striche gibt es aber folgendes zu beachten:
+          <ul>
+            <li>Verzweigt sich der Strich, gehen also von einem Punkt zwei Striche nach oben weg, so strickt man: Durch die Masche (mit Umschlag) stechen wie zum Rechtsstricken, die Masche aber nicht von der linken Nadel fallen lassen, dann den Faden einmal um die rechte Nadel wickeln, nun die Masche wirklich rechts stricken.</li>
+            <li>Verzweigt sich der Strich doppelt, gehen also von einem Punkt drei Striche nach oben weg, so strickt man: Durch die Masche (mit Umschlag) stechen wie zum Rechtsstricken, die Masche aber nicht von der linken Nadel fallen lassen, dann den Faden einmal um die rechte Nadel wickeln, erneut durch die Masche stechen wie zum Rechtsstricken und erneut nicht fallen lassen, wieder einmal um die rechte Nadel wickeln, nun die Masche wirklich rechts stricken.</li>
+            <li>Werden zwei Striche zu einem (also quasi /\ sowas), so "überlebt" in der Grafik nur einer. Überlebt der linke, strikt man: 1 M (mit U) rechts abheben, die nächste und übernächste M (mit U) re zsm stricken, dann die zuvor abgehobene über die gestrickte werfen.</li>
+            <li>"Überlebt" der rechte, so strickt man: 1 M (mit U) rechts abheben, 1 M (die in der falschen Farbe) re, dann die zuvor abgehobene über die gestrickte M werfen, M wieder zurück auf die linke Nadel, mit der nächsten M behängen, dann wieder auf die rechte Nadel heben.</li>
+            <li>Werden drei Striche zu einem (also quasi /|\ ), so "überlebt" der mittlere, und man strickt: 2 M (erste mit U) rechts abheben, 1 M auf Hilfsnadel, 1 M rechts stricken. Dann die zweite abgehobeneüber die gestrickte heben, die M wieder auf die linke Nadel, mit der folgenden M (mit U) behängen, wieder auf die rechte Nadel, mit der ersten abgehobenen behängen, die M von der Hilfsnadel auf die linke Nadel, die gestrickte hinterher und mit der M, die auf der Hilfsnadel war, behängen, als letztes die M wieder auf die rechte Nadel.</li>
+          </ul>Wieder die Arbeit ans andere Ende der Nadel schieben und die Arbeit nicht wenden.</li>
+        <li><b>6., 10., ... Reihe: </b>in Farbe 2, wie die 2. Reihe. An den Stellen, wo man in der Reihe davor jedoch zugenommen hat, fehlt nun ein Umschlag, diese Maschen einfach "nur" links stricken.</li>
+        <li><b>7., 11., ... Reihe: </b>in Farbe 1, wie die 3. Reihe.</li>
+        <li><b>8., 12., ... Reihe: </b>in Farbe 2, wie die 4. Reihe.</li>
+        <li><b>9., 13., ... Reihe: </b>in Farbe 1, wie die 5. Reihe, hier entsteht weiter das Muster. Nun aber in der Grafik die nächste Zeile von unten nehmen.</li>
+        <li>Nach der letzten Reihe im Muster noch drei Reihen stricken. Dann, wenn wieder eine Reihe im Muster dran wäre, alle Maschen rechts abketten.</li>
+      </ul>
+    </blockquote>
     </body>
 </html>

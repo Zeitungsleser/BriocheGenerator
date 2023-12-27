@@ -27,16 +27,30 @@ function sumLine(line) {
     .reduce((a, x) => a + x);
 }
 
-function check(line) {
+function check(line, prevLine = undefined) {
+  console.log("Line:", line, "PrevLine:", prevLine);
   let valid = true;
+  let s = 0;
   line.forEach((x, i) => {
     if (x == "l" || x == "r") {
       if (!i) valid = false;
       if (line[i - 1] != "|") valid = false;
+      s++;
     }
     if (x == "s") {
       if (i == line.length - 1 || !i) valid = false;
       if (line[i - 1] != "|" || line[i + 1] != "|") valid = false;
+      s += 2;
+    }
+    if ((x == "v" || x == "w") && prevLine) {
+      let p = prevLine[i + 1 - s];
+      if (p == "r" || p == "l" || p == "s") valid = false;
+      if (prevLine[i - s] == "s") valid = false;
+    }
+    if (x == "w" && prevLine) {
+      let p = prevLine[i + 2 - s];
+      if (p == "r" || p == "l" || p == "s") valid = false;
+      if (prevLine[i + 1 - s] == "s") valid = false;
     }
   });
   return valid;
@@ -67,22 +81,25 @@ function setup() {
 function draw() {
   noLoop();
   background(220);
+  let l;
   for (let i = 0; i < n; i++) {
     let alle_maschen = [...Array(m).keys()];
-    console.log(alle_maschen);
-    let l = [];
+    //console.log(alle_maschen);
+    let prevLine = l;
+    l = [];
     while (true) {
-      let anz_masch = random(floor(m / 4), floor(m / 3));
-      let sel_masch = shuffle(alle_maschen, false).slice(0, anz_masch + 1);
-      console.log(sel_masch);
+      let anz_masch = round(random(floor(m / 4), floor(m / 3)));
+      let sel_masch = shuffle(alle_maschen, false).slice(0, anz_masch);
+      //console.log(sel_masch);
       for (const masche of alle_maschen) {
         let possibilities = ["v", "v", "w", "l", "l", "r", "r", "s"];
         l.push(sel_masch.includes(masche) ? random(possibilities) : "|");
       }
-      console.log(l, sumLine(l), check(l));
-      if (sumLine(l) == 0 && check(l)) break;
+      //console.log(l, sumLine(l), check(l,prevLine));
+      if (sumLine(l) == 0 && check(l, prevLine)) break;
       l = [];
     }
+    console.log(l);
 
     let x_top = 2 * p;
     let x_bottom = 2 * p;
@@ -122,14 +139,14 @@ function draw() {
         x_top += p;
         x_bottom += p;
       }
-      if (l[j - 1] == "r") {
+      if (l[j - 1] == "l") {
         line(x_top + (x_bottom - x_top) / 5, y + p / 5, x_bottom, y + p);
         x_bottom += p;
         line(x_top, y, x_bottom, y + p);
         x_top += p;
         x_bottom += p;
       }
-      if (l[j - 1] == "l") {
+      if (l[j - 1] == "r") {
         line(x_top, y, x_bottom, y + p);
         x_bottom += p;
         line(x_top + (x_bottom - x_top) / 5, y + p / 5, x_bottom, y + p);

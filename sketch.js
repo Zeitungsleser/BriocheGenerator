@@ -4,6 +4,7 @@ let n = 10;
 let p = 50; //Gittergröße in Pixeln
 
 let out = [];
+let seed;
 
 function sumLine(line) {
   return line
@@ -58,6 +59,7 @@ function check(line, prevLine = undefined) {
 
 function setup() {
   createCanvas(p * (m + 3), p * (n + 2));
+  seed = random() * 1e17;
 
   document.getElementById("zeilen").addEventListener("input", (e) => {
     n = Number(e.target.value);
@@ -73,12 +75,23 @@ function setup() {
     document.getElementById("anzM").innerText = m;
   });
 
+  document.getElementById("seed").addEventListener("input", (e) => {
+    seed = Number(e.target.value);
+    if (seed == NaN) {
+      seed = random() * 1e17;
+    }
+    redraw();
+  });
+
   document.getElementById("refresh").addEventListener("click", (e) => {
     redraw();
+    seed = random() * 1e17;
   });
 }
 
 function draw() {
+  randomSeed(seed);
+  document.getElementById("seed").value = seed;
   noLoop();
   background(220);
   let l;
